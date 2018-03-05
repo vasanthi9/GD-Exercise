@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2036
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GreenDotExercise", "GreenDotExercise\GreenDotExercise.csproj", "{0FBDEF72-4D70-4C11-83C9-4DF499244672}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreenDotExercise.Test", "GreenDotExercise.Test\GreenDotExercise.Test.csproj", "{BCF1D9CA-D6A0-44A0-A6DF-2DA6EBDE3F0B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0FBDEF72-4D70-4C11-83C9-4DF499244672}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FBDEF72-4D70-4C11-83C9-4DF499244672}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FBDEF72-4D70-4C11-83C9-4DF499244672}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FBDEF72-4D70-4C11-83C9-4DF499244672}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCF1D9CA-D6A0-44A0-A6DF-2DA6EBDE3F0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCF1D9CA-D6A0-44A0-A6DF-2DA6EBDE3F0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCF1D9CA-D6A0-44A0-A6DF-2DA6EBDE3F0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCF1D9CA-D6A0-44A0-A6DF-2DA6EBDE3F0B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CC52F152-FE70-4087-84E0-A591A9A95586}
+	EndGlobalSection
+EndGlobal
