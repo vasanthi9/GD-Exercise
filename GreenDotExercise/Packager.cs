@@ -7,35 +7,43 @@ namespace GreenDotExercise
 {
 	public class Packager
 	{
-		Dictionary<string, List<string>> _source = new Dictionary<string, List<string>>();
+		IEnumerable<Package> _packages;
 
-		public Packager()
-		{
-
-		}
-
-		public IList<string> InstallPackages(IEnumerable<Package> source)
+		/// <summary>
+		/// Calculate install order for a list of packages
+		/// </summary>
+		/// <param name="packages"></param>
+		/// <returns>List of package names ordered by dependencies</returns>
+		public IEnumerable<string> InstallPackages(IEnumerable<Package> packages)
 		{
 			var sorted = new List<string>();
 			var visited = new Dictionary<string, bool>();
 
-			foreach (var package in source)
-			{
-				_source.Add(package.Name, package.Dependencies.ToList());
-			}
+			//Validate input since the algorithm assumes a valid input
+			ValidatePackage(packages);
 
-			foreach (var item in _source)
+			_packages = packages;
+
+			foreach (var package in _packages)
 			{
-				Visit(item.Key, item.Value, sorted, visited);
+				ProcessPackage(package.Name, package.Dependencies, sorted, visited);
 			}
 
 			return sorted;
 		}
 
-		private void Visit(string itemName, ICollection<string> dependencies, List<string> sorted, Dictionary<string, bool> visited)
+		/// <summary>
+		/// Traverse through the package to create an ordered list with dependencies 
+		/// appearing before the package itself  
+		/// </summary>
+		/// <param name="packageName"></param>
+		/// <param name="dependencies"></param>
+		/// <param name="sorted"></param>
+		/// <param name="visited"></param>
+		private void ProcessPackage(string packageName, ICollection<string> dependencies, List<string> sorted, Dictionary<string, bool> visited)
 		{
-			bool inProcess;
-			var alreadyVisited = visited.TryGetValue(itemName, out inProcess);
+			bool inProcess; //Is the package currently being processed
+			var alreadyVisited = visited.TryGetValue(packageName.ToLower(), out inProcess);
 
 			if (alreadyVisited)
 			{
@@ -46,29 +54,55 @@ namespace GreenDotExercise
 			}
 			else
 			{
-				visited[itemName] = true;
+				visited[packageName.ToLower()] = true;
 
 				if (dependencies != null)
 				{
 					foreach (var dependency in dependencies)
 					{
-							Visit(dependency, GetDependencies(dependency), sorted, visited);
+						ProcessPackage(dependency, GetDependencies(dependency), sorted, visited);
 					}
 				}
 
-				visited[itemName] = false;
-				sorted.Add(itemName);
+				visited[packageName.ToLower()] = false;
+				sorted.Add(packageName);
 			}
 		}
 
-		private ICollection<string> GetDependencies(string itemName)
+		/// <summary>
+		/// Get dependencies for a package
+		/// </summary>
+		/// <param name="packageName"></param>
+		/// <returns>list of dependencies</returns>
+		private ICollection<string> GetDependencies(string packageName)
 		{
 			List<string> dependencies = new List<string>();
 
-			if (_source.ContainsKey(itemName))
-				dependencies = _source[itemName];
+			Package pkg = _packages.FirstOrDefault(p => p.Name.Equals(packageName, StringComparison.InvariantCultureIgnoreCase));
+			if (pkg != null)
+				dependencies = pkg.Dependencies as List<string>;
 
 			return dependencies;
+		}
+
+		/// <summary>
+		/// Validate packages
+		/// </summary>
+		/// <param name="packages"></param>
+		private void ValidatePackage(IEnumerable<Package> packages)
+		{
+			if (packages == null || packages.Count() <= 0)
+			{
+				throw new ArgumentException("Package list is empty.");
+			}
+
+			foreach (var package in packages)
+			{
+				if (string.IsNullOrEmpty(package.Name) || package.Dependencies == null || package.Dependencies.Contains(null))
+				{
+					throw new ArgumentException("Invalid Package.");
+				}
+			}
 		}
 	}
 }
